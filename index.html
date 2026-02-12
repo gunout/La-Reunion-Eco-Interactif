@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- SheetJS pour export Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -20,7 +21,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f5fafd;
+            background: #f6fafd;
             color: #0b2c38;
             padding: 1.5rem;
             line-height: 1.5;
@@ -31,7 +32,7 @@
             margin: 0 auto;
         }
 
-        /* Header avec contrôles */
+        /* HEADER & CONTROLES */
         .top-header {
             display: flex;
             flex-wrap: wrap;
@@ -53,8 +54,15 @@
             align-items: center;
             gap: 0.7rem;
         }
-        .titre h1 i {
-            color: #b44a2e;
+        .titre h1 i { color: #b44a2e; }
+
+        .sous-titre {
+            font-weight: 500;
+            color: #3c6270;
+            margin-top: 0.3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
         }
 
         .badge {
@@ -66,7 +74,9 @@
             color: #125a6b;
             display: inline-block;
             margin-right: 0.3rem;
+            border: 1px solid #d2e5eb;
         }
+        .badge i { color: #1f7a6a; margin-right: 4px; }
 
         .controls {
             display: flex;
@@ -88,11 +98,9 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .btn:hover {
-            background: #e3f0f5;
-            border-color: #3f8f9c;
-        }
+        .btn:hover { background: #e3f0f5; border-color: #3f8f9c; transform: translateY(-1px); }
 
+        /* BARRE DE FILTRE */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -104,16 +112,8 @@
             align-items: center;
             border: 1px solid #d9e7ec;
         }
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .filter-label {
-            font-weight: 600;
-            font-size: 0.8rem;
-            color: #2a6470;
-        }
+        .filter-group { display: flex; align-items: center; gap: 0.6rem; }
+        .filter-label { font-weight: 600; font-size: 0.8rem; color: #2a6470; }
         select {
             padding: 0.4rem 1rem;
             border-radius: 30px;
@@ -125,6 +125,7 @@
             cursor: pointer;
         }
 
+        /* KPI GRID */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -148,9 +149,10 @@
         }
         .kpi-icon { font-size: 1.4rem; color: #b44a2e; margin-bottom: 0.4rem; }
         .kpi-label { font-weight: 600; font-size: 0.7rem; text-transform: uppercase; color: #4a6978; }
-        .kpi-nb { font-weight: 700; font-size: 1.6rem; color: #06323f; }
+        .kpi-nb { font-weight: 700; font-size: 1.6rem; color: #06323f; margin: 0.1rem 0; }
         .kpi-detail { font-size: 0.65rem; background: #e3f0f4; padding: 0.2rem 0.7rem; border-radius: 30px; display: inline-block; }
 
+        /* SECTIONS GENERALES */
         .row-double {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -166,9 +168,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.01);
             transition: box-shadow 0.3s;
         }
-        .card:hover {
-            box-shadow: 0 16px 32px rgba(0,70,90,0.06);
-        }
+        .card:hover { box-shadow: 0 16px 32px rgba(0,70,90,0.06); }
 
         .card-header {
             display: flex;
@@ -200,12 +200,9 @@
             width: 100%;
             cursor: pointer;
         }
-        canvas {
-            display: block;
-            height: 200px !important;
-            width: auto !important;
-        }
+        canvas { display: block; height: 200px !important; width: auto !important; }
 
+        /* TABLEAUX */
         .table-container {
             max-height: 260px;
             overflow-y: auto;
@@ -231,29 +228,43 @@
             padding: 0.5rem 0.8rem;
             border-bottom: 1px solid #dae8ed;
         }
+        .text-right { text-align: right; }
 
+        /* FILIERES GRID */
         .filiere-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1rem;
             margin-top: 0.5rem;
         }
         .filiere-card {
             background: #f9fdfe;
             border-radius: 18px;
-            padding: 1rem;
+            padding: 1.2rem;
             border: 1px solid #d1e2e9;
             border-left: 5px solid #b44a2e;
-            transition: transform 0.2s, opacity 0.3s;
+            transition: transform 0.2s, opacity 0.3s, box-shadow 0.2s;
             cursor: pointer;
         }
         .filiere-card:hover {
-            transform: scale(1.02);
+            transform: scale(1.01);
             background: white;
             border-color: #b44a2e;
             box-shadow: 0 8px 16px rgba(180,74,46,0.1);
         }
+        .filiere-titre {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0b4855;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+        .filiere-stat {
+            font-weight: 800;
+            color: #146b7c;
+        }
 
+        /* MONOPOLES / DISTRIBUTION */
         .monopoly-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -269,14 +280,19 @@
             transition: transform 0.2s;
             cursor: pointer;
         }
-        .actor-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.06);
-        }
-        .actor-card.confirmed {
-            border-top-color: #b44a2e;
+        .actor-card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.06); }
+        .actor-card.confirmed { border-top-color: #b44a2e; }
+        .actor-tag {
+            font-weight: 700;
+            font-size: 0.65rem;
+            background: #e4edf0;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-bottom: 0.8rem;
         }
 
+        /* IA INSIGHTS */
         .ia-insights {
             background: linear-gradient(145deg, #083b47, #0a4a58);
             border-radius: 28px;
@@ -284,11 +300,10 @@
             margin: 1.8rem 0;
             color: white;
         }
-        .ia-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.2rem;
-        }
+        .ia-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .ia-header i { font-size: 2rem; color: #ffd966; }
+        .ia-header h2 { font-weight: 700; font-size: 1.6rem; }
+        .ia-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
         .ia-card {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(8px);
@@ -297,10 +312,7 @@
             transition: background 0.2s, transform 0.2s;
             cursor: pointer;
         }
-        .ia-card:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
+        .ia-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
         .ia-card h4 {
             font-weight: 700;
             font-size: 1.1rem;
@@ -310,7 +322,9 @@
             gap: 0.5rem;
             color: #ffd966;
         }
+        .ia-stat { font-weight: 800; font-size: 1.5rem; color: #ffd966; }
 
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -329,7 +343,9 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease-out;
         }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .gap-critique {
             background: #fef5ef;
@@ -355,6 +371,8 @@
         @media (max-width: 900px) {
             .row-double { grid-template-columns: 1fr; }
             body { padding: 1rem; }
+            .top-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .controls { width: 100%; justify-content: space-between; }
         }
     </style>
 </head>
@@ -364,7 +382,7 @@
         <div class="top-header">
             <div class="titre">
                 <h1><i class="fas fa-chart-line"></i> La Réunion · Éco Interactif</h1>
-                <div style="margin-top:0.3rem;">
+                <div class="sous-titre">
                     <span class="badge"><i class="fas fa-check-circle"></i> INSEE 2023</span>
                     <span class="badge"><i class="fas fa-leaf"></i> Livre Blanc</span>
                     <span class="badge"><i class="fas fa-building"></i> IEDOM 2024</span>
@@ -372,7 +390,7 @@
                 </div>
             </div>
             <div class="controls">
-                <div class="btn" id="exportBtn"><i class="fas fa-download"></i> Excel</div>
+                <div class="btn" id="exportBtn"><i class="fas fa-file-excel"></i> Excel</div>
                 <div class="btn" id="resetBtn"><i class="fas fa-rotate"></i> Reset</div>
                 <div class="btn" id="fullscreenBtn"><i class="fas fa-expand"></i> Plein écran</div>
             </div>
@@ -403,7 +421,7 @@
         <div class="kpi-grid">
             <div class="kpi-card" onclick="showModal('pib')"><div class="kpi-icon"><i class="fas fa-euro-sign"></i></div><div class="kpi-label">PIB total</div><div class="kpi-nb">24 Md€</div><div class="kpi-detail">2024 · +0,5%</div></div>
             <div class="kpi-card" onclick="showModal('va')"><div class="kpi-icon"><i class="fas fa-chart-pie"></i></div><div class="kpi-label">VA marchande</div><div class="kpi-nb">9 512 M€</div><div class="kpi-detail">Ésane 2023</div></div>
-            <div class="kpi-card" onclick="showModal('auto')"><div class="kpi-icon"><i class="fas fa-apple-alt"></i></div><div class="kpi-label">Autosuff. frais</div><div class="kpi-nb">80%</div><div class="kpi-detail">F&L, viandes</div></div>
+            <div class="kpi-card" onclick="showModal('auto')"><div class="kpi-icon"><i class="fas fa-apple-alt"></i></div><div class="kpi-label">Autosuff. frais</div><div class="kpi-nb">80%</div><div class="kpi-detail">F&L, viandes, poissons</div></div>
             <div class="kpi-card" onclick="showModal('industrie')"><div class="kpi-icon"><i class="fas fa-industry"></i></div><div class="kpi-label">Industrie CA</div><div class="kpi-nb">3,5 Md€</div><div class="kpi-detail">4 659 entr.</div></div>
             <div class="kpi-card" onclick="showModal('agri')"><div class="kpi-icon"><i class="fas fa-tractor"></i></div><div class="kpi-label">Actifs agricoles</div><div class="kpi-nb">22 000</div><div class="kpi-detail">15 000 perm.</div></div>
             <div class="kpi-card" onclick="showModal('peche')"><div class="kpi-icon"><i class="fas fa-fish"></i></div><div class="kpi-label">Pêche locale</div><div class="kpi-nb">3 500 t</div><div class="kpi-detail">22 M€ CA</div></div>
@@ -432,6 +450,7 @@
                 <div class="chart-container" style="height:160px;">
                     <canvas id="comparatifChart"></canvas>
                 </div>
+                <div style="font-size:0.75rem; margin-top:0.5rem; color:#666; text-align:center;">Taux couverture: 6% (Maurice 55%)</div>
             </div>
         </div>
 
@@ -469,51 +488,72 @@
                     <span class="source-mini">ARIPA 2018</span>
                 </div>
                 <div style="display:flex; flex-direction:column; gap:0.8rem;">
-                    <div onclick="showModal('pecheCotiere')" style="cursor:pointer; padding:0.5rem; border-radius:12px; background:#f5fafc;">
+                    <div onclick="showModal('pecheCotiere')" style="cursor:pointer; padding:0.5rem; border-radius:12px; background:#f5fafc; transition:0.2s;" onmouseover="this.style.background='#eef5f8'" onmouseout="this.style.background='#f5fafc'">
                         <span style="font-weight:700;">🎣 Pêche côtière</span> : 175 navires, 1 080 t/an
                     </div>
-                    <div onclick="showModal('pecheHauturiere')" style="cursor:pointer; padding:0.5rem; border-radius:12px; background:#f5fafc;">
+                    <div onclick="showModal('pecheHauturiere')" style="cursor:pointer; padding:0.5rem; border-radius:12px; background:#f5fafc; transition:0.2s;" onmouseover="this.style.background='#eef5f8'" onmouseout="this.style.background='#f5fafc'">
                         <span style="font-weight:700;">⚓ Pêche hauturière</span> : 19 navires, 2 200 t/an
                     </div>
-                    <div onclick="showModal('aquaculture')" style="cursor:pointer; padding:0.5rem; border-radius:12px; background:#f5fafc;">
+                    <div onclick="showModal('aquaculture')" style="cursor:pointer; padding:0.5rem; border-radius:12px; background:#f5fafc; transition:0.2s;" onmouseover="this.style.background='#eef5f8'" onmouseout="this.style.background='#f5fafc'">
                         <span style="font-weight:700;">💧 Aquaculture</span> : 50 t tilapia, 30 t truite
+                    </div>
+                    <div style="background:#e0edf2; padding:0.6rem; border-radius:12px; margin-top:0.3rem;">
+                        <span style="font-weight:700;">+50% volumes commercialisés depuis 2010</span> · Revenus pêcheurs +40%
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ========== FILIÈRES STRATÉGIQUES : CORRIGÉ ========== -->
+        <!-- ========== FILIÈRES STRATÉGIQUES : CONTENU ENRICHI ========== -->
         <div style="margin-bottom:1.5rem;">
             <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
                 <i class="fas fa-seedling" style="color:#b44a2e; font-size:1.6rem;"></i>
-                <h2 style="font-weight:600; font-size:1.4rem; color:#0b4855;">Filières stratégiques · Production Locale</h2>
-                <span style="background:#2a6470; color:white; border-radius:40px; padding:0.2rem 1rem; font-size:0.75rem;">Cliquez pour détail</span>
+                <h2 style="font-weight:600; font-size:1.4rem; color:#0b4855;">Filières stratégiques · Production Locale Réunie</h2>
+                <span style="background:#2a6470; color:white; border-radius:40px; padding:0.2rem 1rem; font-size:0.75rem;">Livre Blanc 2020</span>
             </div>
             <div class="filiere-grid" id="filiereGrid">
                 <!-- CHAQUE CARTE A UN ONCLICK SIMPLE showModal('ID') -->
                 <div class="filiere-card" data-filiere="canne" onclick="showModal('canne')">
-                    <span class="filiere-titre">🍬 Canne-sucre-rhum</span><br>
-                    1er producteur européen · <span class="filiere-stat">18 300 emplois</span>
+                    <span class="filiere-titre">🍬 Canne-sucre-rhum</span>
+                    <div style="font-size:0.85rem; color:#444;">
+                        1er producteur européen · 70% export endogènes<br>
+                        <span class="filiere-stat">18 300 emplois</span> · 33% EnR (bagasse)
+                    </div>
                 </div>
                 <div class="filiere-card" data-filiere="fl" onclick="showModal('fl')">
-                    <span class="filiere-titre">🍍 Fruits & légumes</span><br>
-                    70-80% autosuffisance · <span class="filiere-stat">90-100 kt/an</span>
+                    <span class="filiere-titre">🍍 Fruits & légumes</span>
+                    <div style="font-size:0.85rem; color:#444;">
+                        70-80% autosuffisance · 90-100 kt/an<br>
+                        <span class="filiere-stat">2 600 producteurs</span> · Export ananas Victoria
+                    </div>
                 </div>
                 <div class="filiere-card" data-filiere="elevage" onclick="showModal('elevage')">
-                    <span class="filiere-titre">🐄 Élevage</span><br>
-                    Porc 100%, volaille 95%, œufs 100%
+                    <span class="filiere-titre">🐄 Élevage</span>
+                    <div style="font-size:0.85rem; color:#444;">
+                        Porc 100%, volaille 95%, œufs 100%<br>
+                        <span class="filiere-stat">800 éleveurs</span> · 2 300 emplois directs
+                    </div>
                 </div>
-                <div class="filiere-card" data-filiere="peche" onclick="showModal('peche')">
-                    <span class="filiere-titre">🎣 Pêche</span><br>
-                    3 500 t/an · 22 M€ CA · 12,6 emplois/M€
+                <div class="filiere-card" data-filiere="peche" onclick="showModal('pecheF')">
+                    <span class="filiere-titre">🎣 Pêche & aquaculture</span>
+                    <div style="font-size:0.85rem; color:#444;">
+                        3 500 t/an · 22 M€ CA · 12,6 emplois/M€<br>
+                        194 navires · 55% local frais
+                    </div>
                 </div>
-                <div class="filiere-card" data-filiere="industrie" onclick="showModal('industrie')">
-                    <span class="filiere-titre">🏭 Industrie</span><br>
-                    5 432 entr. · 18 616 sal. · 3,5 Md€ CA
+                <div class="filiere-card" data-filiere="industrie" onclick="showModal('industrieF')">
+                    <span class="filiere-titre">🏭 Industrie</span>
+                    <div style="font-size:0.85rem; color:#444;">
+                        5 432 entr. · 18 616 sal. · 3,5 Md€ CA<br>
+                        <span class="filiere-stat">IAA = 1/3 VA</span> · +15% emploi
+                    </div>
                 </div>
                 <div class="filiere-card" data-filiere="circulaire" onclick="showModal('circulaire')">
-                    <span class="filiere-titre">🔄 Éco-circulaire</span><br>
-                    Bagasse 33% EnR · 1 800 t engrais économisés
+                    <span class="filiere-titre">🔄 Éco-circulaire</span>
+                    <div style="font-size:0.85rem; color:#444;">
+                        Bagasse 33% EnR · Cendres → engrais<br>
+                        <span class="filiere-stat">1 800 t</span> engrais économisés
+                    </div>
                 </div>
             </div>
         </div>
@@ -527,11 +567,12 @@
                 </div>
                 <div style="display:flex; flex-wrap:wrap; gap:0.8rem;">
                     <div style="background:#f5f3e9; padding:0.8rem; border-radius:16px; flex:1;">
-                        <span style="font-weight:700;">18 300 emplois</span> · 7,6 ha/exploitation<br>
-                        <span style="font-weight:700;">70% export endogènes</span>
+                        <span style="font-weight:700;">18 300 emplois</span> (1 actif/10) · 7,6 ha/exploitation<br>
+                        <span style="font-weight:700; color:#b44a2e;">70% export endogènes</span> · 90% sucre exporté
                     </div>
                     <div style="background:#e0edf2; padding:0.8rem; border-radius:16px; flex:1;">
-                        <span style="font-weight:700;">33% EnR</span> (bagasse) · R&D 7 M€/an
+                        <span style="font-weight:700;">Durabilité</span>: 33% EnR (bagasse), capte CO₂ auto<br>
+                        <span style="font-weight:700;">R&D</span>: 7 M€/an, 8 nouvelles variétés
                     </div>
                 </div>
             </div>
@@ -543,6 +584,9 @@
                 <div class="chart-container" style="height:150px;">
                     <canvas id="croissanceChart"></canvas>
                 </div>
+                <div style="display:flex; justify-content:space-between; margin-top:0.6rem; font-size:0.75rem;">
+                    <span>PME: 47% VA</span> <span>Micro: 29%</span> <span>ETI/GE: 24%</span>
+                </div>
             </div>
         </div>
 
@@ -550,40 +594,73 @@
         <div style="margin:1.5rem 0;">
             <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
                 <i class="fas fa-store" style="color:#b44a2e; font-size:1.6rem;"></i>
-                <h2 style="font-weight:600; font-size:1.4rem; color:#0b4855;">Grande distribution</h2>
+                <h2 style="font-weight:600; font-size:1.4rem; color:#0b4855;">Grande distribution · positions dominantes</h2>
                 <span style="background:#2a6470; color:white; border-radius:40px; padding:0.2rem 1rem; font-size:0.75rem;">OPMR 2025</span>
             </div>
             <div class="monopoly-grid">
                 <div class="actor-card confirmed" onclick="showModal('carrefourLeclerc')">
                     <span class="actor-tag"><i class="fas fa-trophy"></i> duopole</span>
                     <div style="font-size:1.3rem; font-weight:700;">Carrefour · Leclerc</div>
-                    <div style="font-size:1.8rem; font-weight:800;">>60%</div>
+                    <div style="font-size:1.8rem; font-weight:800; color:#b44a2e;">>60%</div>
+                    <div style="font-size:0.85rem;">parts de marché cumulées</div>
                 </div>
                 <div class="actor-card confirmed" onclick="showModal('leaderPriceRunMarket')">
                     <span class="actor-tag"><i class="fas fa-handshake"></i> concentration</span>
                     <div style="font-size:1.2rem; font-weight:700;">Leader Price + Run Market</div>
-                    <div>53 magasins · ~20% parts · 500 M€ CA</div>
+                    <div style="font-weight:700; margin:0.3rem 0;">53 magasins · ~20% parts</div>
+                    <div style="font-size:0.85rem; color:#666;">500 M€ CA</div>
                 </div>
                 <div class="actor-card" onclick="showModal('srpp')">
                     <span class="actor-tag"><i class="fas fa-question-circle"></i> non sourcé</span>
                     <div style="font-weight:700;">SRPP / carburants</div>
+                    <div style="font-size:0.8rem;">Non confirmé sources actuelles</div>
                 </div>
             </div>
+            <p style="margin-top:1rem; font-size:0.8rem; background:#f9f2e7; padding:0.5rem 1.2rem; border-radius:30px; color:#555;">
+                <i class="fas fa-hand-holding-usd" style="color:#b44a2e;"></i> Modèle interprofessionnel unique: importateurs et distributeurs cotisent aux fonds de soutien des filières depuis 1970.
+            </p>
         </div>
 
         <!-- ANALYSES IA -->
         <div class="ia-insights">
-            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
-                <i class="fas fa-brain" style="font-size:2rem; color:#ffd966;"></i>
-                <h2 style="font-weight:700; font-size:1.6rem; color:white;">Analyses IA · Cliquez pour explorer</h2>
+            <div class="ia-header">
+                <i class="fas fa-brain"></i>
+                <h2>Analyses IA · Modèle réunionnais</h2>
             </div>
             <div class="ia-grid">
-                <div class="ia-card" onclick="showModal('autosuffisance')"><h4><i class="fas fa-check-circle"></i> Autosuffisance record</h4>80% produits frais locaux</div>
-                <div class="ia-card" onclick="showModal('social')"><h4><i class="fas fa-balance-scale"></i> Modèle social</h4>5,6 ha/exploitation</div>
-                <div class="ia-card" onclick="showModal('croissance')"><h4><i class="fas fa-chart-line"></i> Moteurs</h4>Info-com +52%</div>
-                <div class="ia-card" onclick="showModal('circulaireIA')"><h4><i class="fas fa-recycle"></i> Éco-circulaire</h4>Bagasse 33% EnR</div>
-                <div class="ia-card" onclick="showModal('industrieIA')"><h4><i class="fas fa-industry"></i> Industrie</h4>+15% emploi</div>
-                <div class="ia-card" onclick="showModal('dependance')"><h4><i class="fas fa-exclamation-triangle"></i> Dépendance</h4>9,8% VA industrie</div>
+                <div class="ia-card" onclick="showModal('autosuffisance')">
+                    <h4><i class="fas fa-check-circle"></i> Autosuffisance record</h4>
+                    <span class="ia-stat">80%</span> produits frais locaux<br>
+                    <span style="font-size:0.9rem; opacity:0.9;">100% porc/œufs, 95% volaille, 70% F&L</span>
+                </div>
+                <div class="ia-card" onclick="showModal('social')">
+                    <h4><i class="fas fa-balance-scale"></i> Modèle social inclusif</h4>
+                    Petites structures familiales: 5,6 ha/exploitation<br>
+                    <span class="ia-stat">22 000</span> actifs agricoles
+                </div>
+                <div class="ia-card" onclick="showModal('croissance')">
+                    <h4><i class="fas fa-chart-line"></i> Moteurs de croissance</h4>
+                    Info-com +52%, services tech +45%<br>
+                    <span style="font-size:0.9rem; opacity:0.9;">Export ananas Victoria, letchi, rhum</span>
+                </div>
+                <div class="ia-card" onclick="showModal('circulaireIA')">
+                    <h4><i class="fas fa-recycle"></i> Économie circulaire</h4>
+                    Bagasse → 33% EnR · Cendres → engrais<br>
+                    <span class="ia-stat">1 800 t</span> engrais économisés
+                </div>
+                <div class="ia-card" onclick="showModal('industrieIA')">
+                    <h4><i class="fas fa-industry"></i> Industrie résiliente</h4>
+                    <span class="ia-stat">+15%</span> emploi industriel 2010-2019<br>
+                    3,5 Md€ CA · IAA 1/3 VA
+                </div>
+                <div class="ia-card" onclick="showModal('dependance')">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Dépendance</h4>
+                    Industrie: 9,8% VA (France 11%)<br>
+                    Concurrence import bas prix
+                </div>
+            </div>
+            <div style="margin-top:1.2rem; font-size:0.8rem; opacity:0.9; border-top:1px solid rgba(255,255,255,0.2); padding-top:1rem;">
+                <i class="fas fa-file-alt"></i> Sources: Livre Blanc Production Locale Réunie (2020), INSEE Ésane 2023, IEDOM, Banque de France, OPMR.
             </div>
         </div>
 
@@ -594,7 +671,7 @@
                     <h3 id="modalTitle" style="color:#0b4858; font-size:1.3rem;">Détail</h3>
                     <span onclick="document.getElementById('detailModal').style.display='none'" style="cursor:pointer; font-size:1.8rem; color:#6b8a96;">&times;</span>
                 </div>
-                <div id="modalBody" style="line-height:1.6;"></div>
+                <div id="modalBody" style="line-height:1.6; color:#334;"></div>
                 <div style="margin-top:1.5rem; text-align:right;">
                     <span onclick="document.getElementById('detailModal').style.display='none'" style="background:#b44a2e; color:white; padding:0.4rem 1.2rem; border-radius:40px; cursor:pointer; font-size:0.8rem;">Fermer</span>
                 </div>
@@ -610,14 +687,15 @@
                     <li><i class="fas fa-check-circle" style="color:#1d7a5e;"></i> VA sectorielle: champ marchand non agricole</li>
                     <li><i class="fas fa-minus-circle" style="color:#a5532b;"></i> Hors agriculture, finance, admin.</li>
                     <li><i class="fas fa-clock"></i> Données élevage/pêche: 2018</li>
+                    <li><i class="fas fa-search"></i> Commerce extérieur en valeur (€) non publié</li>
                 </ul>
             </div>
         </div>
 
         <!-- FOOTER -->
         <div class="footnote-verif">
-            <span><i class="fas fa-database"></i> Sources: INSEE Ésane 2023 · Livre Blanc · IEDOM 2024 · Banque France · OPMR</span>
-            <span>✅ 100% interactif · clics réparés</span>
+            <span><i class="fas fa-database"></i> Sources: INSEE Ésane 2023 · Livre Blanc Prod. Locale Réunie · IEDOM 2024 · Banque France · OPMR</span>
+            <span>✅ 100% interactif · Données fusionnées</span>
         </div>
     </div>
 
@@ -642,7 +720,7 @@
                             showModalSecteur(label, value);
                         }
                     },
-                    plugins: { legend: { position: 'right' } }
+                    plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 9 } } } }
                 }
             });
 
@@ -677,6 +755,7 @@
                 document.getElementById('activeFilters').innerHTML = `<i class="fas fa-filter"></i> ${text}`;
                 document.querySelectorAll('.filiere-card').forEach(card => {
                     card.style.opacity = (val === 'all' || card.dataset.filiere === val) ? '1' : '0.4';
+                    card.style.pointerEvents = (val === 'all' || card.dataset.filiere === val) ? 'auto' : 'none';
                 });
             });
 
@@ -686,7 +765,10 @@
             document.getElementById('resetBtn').addEventListener('click', function() {
                 document.getElementById('filiereSelect').value = 'all';
                 document.getElementById('activeFilters').innerHTML = '<i class="fas fa-info-circle"></i> Aucun filtre actif';
-                document.querySelectorAll('.filiere-card').forEach(card => card.style.opacity = '1');
+                document.querySelectorAll('.filiere-card').forEach(card => {
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                });
             });
             // Plein écran
             document.getElementById('fullscreenBtn').addEventListener('click', function() {
@@ -694,46 +776,47 @@
             });
         });
 
-        // ========== MODAL UNIVERSELLE ==========
+        // ========== MODAL UNIVERSELLE AVEC DONNÉES FUSIONNÉES ==========
         function showModal(id) {
             const modal = document.getElementById('detailModal');
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
             
+            // Données enrichies combinant les deux sources
             const data = {
                 // KPI
-                pib: { t: 'PIB total', d: '<p><strong>24 Md€</strong> en 2024, croissance <strong>+0,5%</strong> (IEDOM).</p>' },
+                pib: { t: 'PIB total', d: '<p><strong>24 Md€</strong> en 2024, croissance <strong>+0,5%</strong> (IEDOM).</p><p>Dynamisme porté par la consommation intérieure et les investissements publics.</p>' },
                 va: { t: 'VA marchande', d: '<p><strong>9 512 M€</strong> en 2023, soit 40% du PIB. Champ: secteurs marchands non agricoles.</p>' },
-                auto: { t: 'Autosuffisance produits frais', d: '<p><strong>80%</strong> de couverture. 100% porc/œufs, 95% volaille, 70% F&L.</p>' },
-                industrie: { t: 'Industrie', d: '<p><strong>3,5 Md€ CA</strong> · 4 659 entreprises · 18 616 salariés · IAA = 1/3 VA.</p>' },
-                agri: { t: 'Actifs agricoles', d: '<p><strong>22 000 actifs</strong> dont 15 000 permanents. 7 000 exploitations.</p>' },
-                peche: { t: 'Pêche locale', d: '<p><strong>3 500 t/an</strong> · 22 M€ CA · 194 navires · 12,6 emplois/M€.</p>' },
+                auto: { t: 'Autosuffisance produits frais', d: '<p><strong>80%</strong> de couverture globale.</p><ul><li>100% pour le porc et les œufs.</li><li>95% pour la volaille.</li><li>70% pour les Fruits & Légumes.</li></ul><p>1er DOM pour la sécurité alimentaire.</p>' },
+                industrie: { t: 'Industrie', d: '<p><strong>3,5 Md€ CA</strong> · 4 659 entreprises · 18 616 salariés · IAA = 1/3 VA.</p><p>Résilience avec +15% emploi entre 2010 et 2019.</p>' },
+                agri: { t: 'Actifs agricoles', d: '<p><strong>22 000 actifs</strong> dont 15 000 permanents. 7 000 exploitations.</p><p>Modèle familial fort (1 actif agricole pour 10 habitants).</p>' },
+                peche: { t: 'Pêche locale', d: '<p><strong>3 500 t/an</strong> · 22 M€ CA · 194 navires · 12,6 emplois/M€.</p><p>Un secteur très générateur d\'emplois par rapport à sa valeur ajoutée.</p>' },
                 
-                // Filières
-                canne: { t: '🍬 Canne-sucre-rhum', d: '<p><strong>1er producteur européen</strong><br>• 18 300 emplois (1 actif/10)<br>• 70% des exportations endogènes<br>• 90% du sucre exporté<br>• 7,6 ha/exploitation<br>• 33% EnR (bagasse)<br>• R&D: 7 M€/an</p>' },
-                fl: { t: '🍍 Fruits & légumes', d: '<p><strong>70-80% autosuffisance</strong><br>• 90-100 kt/an<br>• 2 600 producteurs · 9 000 actifs<br>• Export ananas Victoria, letchi</p>' },
-                elevage: { t: '🐄 Élevage', d: '<p><strong>Filières animales structurées</strong><br>• Porc: 100% marché frais<br>• Volaille: 95%<br>• Œufs: 100%<br>• Lait: 96%<br>• Bœuf: 48%<br>• 800 éleveurs · 2 300 emplois</p>' },
-                pecheF: { t: '🎣 Pêche & aquaculture', d: '<p><strong>Pêche réunionnaise</strong><br>• 3 500 t/an · 22 M€ CA<br>• 194 navires · 481 marins<br>• 55% local, 45% export<br>• +50% volumes depuis 2010</p>' },
-                industrieF: { t: '🏭 Industrie', d: '<p><strong>5 432 entreprises</strong><br>• 18 616 salariés<br>• 3,5 Md€ CA<br>• 1,15 Md€ VA<br>• +15% emploi 2010-2019</p>' },
-                circulaire: { t: '🔄 Économie circulaire', d: '<p><strong>Modèle intégré</strong><br>• Bagasse → 33% EnR<br>• Cendres → engrais: 1 800 t économisés<br>• Paille → 30% litière élevage<br>• Effluents → fertilisation</p>' },
+                // Filières (Données Livre Blanc + Script 1)
+                canne: { t: '🍬 Canne-sucre-rhum', d: '<p><strong>1er producteur européen</strong><br>• 18 300 emplois (1 actif/10)<br>• 70% des exportations endogènes (sucre + rhum)<br>• 90% du sucre est exporté<br>• 7,6 ha/exploitation (social vs betterave 127ha)<br>• <strong>33% EnR</strong> via la bagasse<br>• R&D: 7 M€/an, 8 nouvelles variétés</p>' },
+                fl: { t: '🍍 Fruits & légumes', d: '<p><strong>70-80% autosuffisance</strong><br>• 90-100 kt/an de production<br>• 2 600 producteurs · 9 000 actifs<br>• Exportations: Ananas Victoria, Letchis<br>• Défi: maintien de la surface agricole utile</p>' },
+                elevage: { t: '🐄 Élevage', d: '<p><strong>Filières animales structurées</strong><br>• Porc: <strong>100%</strong> marché frais<br>• Volaille: <strong>95%</strong><br>• Œufs: <strong>100%</strong><br>• Lait: <strong>96%</strong><br>• Bœuf: <strong>48%</strong><br>• 800 éleveurs · 2 300 emplois directs</p>' },
+                pecheF: { t: '🎣 Pêche & aquaculture', d: '<p><strong>Pêche réunionnaise</strong><br>• 3 500 t/an · 22 M€ CA<br>• 194 navires · 481 marins<br>• 55% marché local frais, 45% export<br>• <strong>+50% volumes</strong> depuis 2010<br>• 12,6 emplois/M€ (x2.3 normale)</p>' },
+                industrieF: { t: '🏭 Industrie', d: '<p><strong>5 432 entreprises</strong><br>• 18 616 salariés<br>• 3,5 Md€ CA<br>• 1,15 Md€ VA<br>• <strong>+15% emploi</strong> 2010-2019<br>• IAA = 1/3 de la VA industrielle</p>' },
+                circulaire: { t: '🔄 Économie circulaire', d: '<p><strong>Modèle intégré performant</strong><br>• Bagasse → <strong>33% EnR</strong> électrique<br>• Cendres → engrais: <strong>1 800 t</strong> économisées<br>• Paille → 30% litière élevage<br>• Effluents → fertilisation des champs</p>' },
                 
                 // Pêche détails
-                pecheCotiere: { t: 'Pêche côtière', d: '<p><strong>175 navires</strong> (<12m)<br>• 290 marins<br>• 1 080 t/an<br>• 100% local</p>' },
-                pecheHauturiere: { t: 'Pêche hauturière', d: '<p><strong>19 navires</strong> (12-24m)<br>• 191 marins<br>• 2 200 t/an<br>• 55% local, 45% export</p>' },
-                aquaculture: { t: 'Aquaculture', d: '<p><strong>Production</strong><br>• 50 t tilapia<br>• 30 t truite<br>• 4 t spiruline<br>• Truite d\'Hell-Bourg: Produits Pays</p>' },
+                pecheCotiere: { t: 'Pêche côtière', d: '<p><strong>175 navires</strong> (<12m)<br>• 290 marins<br>• 1 080 t/an<br>• 100% destiné au marché local</p>' },
+                pecheHauturiere: { t: 'Pêche hauturière', d: '<p><strong>19 navires</strong> (12-24m)<br>• 191 marins<br>• 2 200 t/an<br>• 55% marché local, 45% à l\'export</p>' },
+                aquaculture: { t: 'Aquaculture', d: '<p><strong>Production diversifiée</strong><br>• 50 t tilapia<br>• 30 t truite (d\'Hell-Bourg)<br>• 4 t spiruline<br>• Label "Produits Pays" pour certaines filières</p>' },
                 
                 // Distribution
-                carrefourLeclerc: { t: 'Duopole Carrefour · Leclerc', d: '<p><strong>>60% parts de marché</strong><br>Source: OPMR 2025</p>' },
-                leaderPriceRunMarket: { t: 'Leader Price + Run Market', d: '<p><strong>53 magasins</strong><br>• ~20% parts<br>• 500 M€ CA<br>• Nouvel ensemble n°3</p>' },
-                srpp: { t: 'SRPP / carburants', d: '<p>Information non confirmée dans les sources actuelles.</p>' },
+                carrefourLeclerc: { t: 'Duopole Carrefour · Leclerc', d: '<p><strong>>60% parts de marché</strong><br>Source: OPMR 2025.<br>Une concentration historique qui structure la demande.</p>' },
+                leaderPriceRunMarket: { t: 'Leader Price + Run Market', d: '<p><strong>53 magasins</strong><br>• ~20% parts de marché<br>• 500 M€ CA<br>• Formation du 3ème ensemble national après rapprochement.</p>' },
+                srpp: { t: 'SRPP / carburants', d: '<p>Information non sourcée ou non confirmée dans les données publiques récentes.</p>' },
                 
                 // IA
-                autosuffisance: { t: 'Autosuffisance record', d: '<p><span style="font-size:2rem; color:#b44a2e;">80%</span> des produits frais sont locaux.</p><p>1er DOM pour la sécurité alimentaire.</p>' },
-                social: { t: 'Modèle social inclusif', d: '<p>5,6 ha en moyenne (vs 127 ha betterave).<br>22 000 actifs agricoles · 1 actif/10.</p>' },
-                croissance: { t: 'Moteurs de croissance', d: '<p>• Info-comm: +52%<br>• Services tech: +45%<br>• Hôtel-restau: +44%<br>• Arts/loisirs: +44%</p>' },
-                circulaireIA: { t: 'Économie circulaire', d: '<p>Bagasse → 33% EnR · 1 800 t engrais économisés · Paille → litière 30%.</p>' },
-                industrieIA: { t: 'Industrie résiliente', d: '<p>+15% emploi 2010-2019 · 3,5 Md€ CA · IAA = 1/3 VA.</p>' },
-                dependance: { t: 'Dépendance', d: '<p>Industrie: 9,8% VA (France 11%)<br>Pêche: 0,21% captures océan Indien<br>Taux couverture: 6%</p>' }
+                autosuffisance: { t: 'Autosuffisance record', d: '<p><span style="font-size:2rem; color:#b44a2e;">80%</span> des produits frais sont locaux.</p><p>1er DOM pour la sécurité alimentaire grâce à l\'interprofession et au soutien aux filières.</p>' },
+                social: { t: 'Modèle social inclusif', d: '<p>Structure familiale dominante : 5,6 ha en moyenne (contre 127 ha pour la betterave métropolitaine).</p><p>22 000 actifs agricoles · Ratio 1 actif/10 habitants.</p>' },
+                croissance: { t: 'Moteurs de croissance', d: '<p>Croissance VA 2017-2023 :</p><ul><li>• Info-comm: <strong>+52%</strong></li><li>• Services tech: <strong>+45%</strong></li><li>• Hôtel-restau: <strong>+44%</strong></li></ul>' },
+                circulaireIA: { t: 'Économie circulaire', d: '<p>Un modèle vertueux ancré dans la filière canne.</p><p>Bagasse → 33% EnR · Cendres → engrais · Paille → litière.</p>' },
+                industrieIA: { t: 'Industrie résiliente', d: '<p>Malgré l\'éloignement, l\'industrie tient bon.</p><p>+15% emploi 2010-2019 · 3,5 Md€ CA · IAA = 1/3 VA.</p>' },
+                dependance: { t: 'Dépendance', d: '<p><strong>Fragilités :</strong><br>• Industrie: 9,8% VA (France 11%)<br>• Pêche: 0,21% des captures océan Indien<br>• Taux couverture global: 6%</p>' }
             };
             
             if(data[id]) {
@@ -747,7 +830,7 @@
         function showModalSecteur(label, value) {
             const modal = document.getElementById('detailModal');
             document.getElementById('modalTitle').textContent = label;
-            document.getElementById('modalBody').innerHTML = `<p><strong>Part de la VA :</strong> ${value}%</p><p>Ce secteur représente ${value}% de la valeur ajoutée marchande (9 512 M€).</p><p>Source: INSEE Ésane 2023</p>`;
+            document.getElementById('modalBody').innerHTML = `<p><strong>Part de la VA :</strong> ${value}%</p><p>Ce secteur représente ${value}% de la valeur ajoutée marchande non agricole (9 512 M€).</p><p>Source: INSEE Ésane 2023</p>`;
             modal.style.display = 'flex';
         }
 
@@ -786,12 +869,12 @@
             ];
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), 'Réunion');
-            XLSX.writeFile(wb, 'economie_reunion.xlsx');
+            XLSX.writeFile(wb, 'economie_reunion_2026.xlsx');
         }
 
         // Fermeture avec Echap
         window.addEventListener('keydown', function(e) {
-            if(e.key === 'Escape') document.getElementById('detailModal').style.display = 'none';
+            if(e.key === 'Escape') document.getElementById('detailModal').style.display='none';
         });
     </script>
 </body>
